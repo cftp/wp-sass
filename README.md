@@ -1,3 +1,5 @@
+THIS IS A PROOF OF CONCEPT AND NOT TO BE USED BEYOND DEV ENVIRONMENTS
+
 # Enable Sass and Scss in WordPress
 
 This plugin allows you to write and edit .sass and .scss files directly and
