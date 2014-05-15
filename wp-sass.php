@@ -13,8 +13,14 @@ License: MIT
 ! defined( 'ABSPATH' ) AND exit;
 
 
-// load SASS parser
-! class_exists( 'scssc' ) AND require_once( 'scssphp/scss.inc.php' );
+// load the autoloader if it's present
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require __DIR__ . '/vendor/autoload.php';
+} else if ( file_exists( __DIR__.'/vendor/leafo/lessphp/lessc.inc.php' ) && file_exists( __DIR__.'/vendor/leafo/scssphp/scss.inc.php' ) ) {
+	// load parsers
+	require_once( __DIR__.'/vendor/leafo/lessphp/lessc.inc.php' );
+	require_once( __DIR__.'/vendor/leafo/scssphp/scss.inc.php' );
+}
 
 
 if ( ! class_exists( 'wp_sass' ) ) {
@@ -79,8 +85,8 @@ class wp_sass {
 	 */
 	public function parse_stylesheet( $src, $handle ) {
 
-		// we only want to handle .less files
-		if ( ! preg_match( "/\.(?:sass|scss)(\.php)?$/", preg_replace( "/\?.*$/", "", $src ) ) )
+		// we only want to handle .less, .sass or .scss files
+		if ( ! preg_match( "/\.(?:sass|scss|less)(\.php)?$/", preg_replace( "/\?.*$/", "", $src ) ) )
 			return $src;
 
 		// get file path from $src
@@ -91,7 +97,12 @@ class wp_sass {
 		// output css file name
 		$css_path = trailingslashit( $this->get_cache_dir() ) . "{$handle}.css";
 
-		$syntax = strstr( $sass_path, 'scss' ) ? 'scss' : 'sass';
+		// LESS or SASS?
+		if ( strstr( $sass_path, 'less' ) ) {
+			$syntax = 'less';
+		} else {
+			$syntax = strstr( $sass_path, 'scss' ) ? 'scss' : 'sass';
+		}
 
 		// automatically regenerate files if source's modified time has changed or vars have changed
 		try {
@@ -149,8 +160,18 @@ class wp_sass {
 			'load_paths' => $load_path,
 		);
 		// Execute the compiler.
-		$parser = new scssc( $options );
-		return $parser->compile( $file );
+		switch ( $syntax ) {
+			case "scss":
+				$parser = new scssc( $options );
+				return $parser->compile( $file );
+				break;
+
+			case "less": // @TODO change library
+				$parser = new lessc();
+				return $parser->compileFile( $file );
+				break;
+		}
+
     }
 
 	public function cb_warn( $message, $context ) {
