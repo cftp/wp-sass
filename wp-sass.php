@@ -14,7 +14,7 @@ License: MIT
 
 
 // load SASS parser
-! class_exists( 'SassParser' ) AND require_once( 'phpsass/SassParser.php' );
+! class_exists( 'scssc' ) AND require_once( 'scssphp/scss.inc.php' );
 
 
 if ( ! class_exists( 'wp_sass' ) ) {
@@ -149,8 +149,8 @@ class wp_sass {
 			'load_paths' => $load_path,
 		);
 		// Execute the compiler.
-		$parser = new SassParser( $options );
-		return $parser->toCss( $file );
+		$parser = new scssc( $options );
+		return $parser->compile( $file );
     }
 
 	public function cb_warn( $message, $context ) {
