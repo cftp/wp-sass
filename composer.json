@@ -1,6 +1,6 @@
 {
     "name": "cftp/wp-sass",
-    "description": "Provides SASS and LESS compilers compatible with wp_enqueue_style() for rapid CSS development in themes and plugins. Based on original work by Robert O'Rourke",
+    "description": "Provides a SASS compiler compatible with wp_enqueue_style() for rapid CSS development in themes and plugins. Based on original work by Robert O'Rourke",
     "license": "GPL-2.0+",
     "type": "wordpress-plugin",
     "authors": [
@@ -18,7 +18,6 @@
     "require": {
         "php": ">5.2.4",
         "composer/installers": "~1.0",
-        "leafo/scssphp": "0.0.10",
-        "leafo/lessphp": "0.4.0"
+        "leafo/scssphp": "0.0.10"
     }
 }
