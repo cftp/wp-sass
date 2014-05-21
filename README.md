@@ -1,4 +1,4 @@
-**!! THIS IS A PROOF OF CONCEPT AND NOT TO BE USED BEYOND DEV ENVIRONMENTS !!**
+**!! THIS USES A DIFFERENT PHP LIBRARY TO THE [ORIGINAL](https://github.com/sanchothefat/wp-sass) !!**
 
 ---
 
